@@ -2,11 +2,101 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
-
+@layer base {
+  :root {
+    --color-bkg: 210deg 40% 98%;
+    --color-content: 217deg 32.6% 17.5%;
+    --color-accent1: 288deg 95.8% 90.6%;
+    --color-accent2: 168deg 83.8% 78.2%;
+  }
   @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
+    :root {
+      --color-bkg: 217deg 32.6% 17.5%;
+      --color-content: 210deg 40% 98%;
+      --color-accent1: 288deg 95.8% 60.6%;
+      --color-accent2: 168deg 83.8% 48.2%;
+    }
+  }
+  :root[data-theme="dark"] {
+    --color-bkg: 217deg 32.6% 17.5%;
+    --color-content: 210deg 40% 98%;
+    --color-accent1: 300deg 95.8% 60.6%;
+    --color-accent2: 200deg 83.8% 48.2%;
+  }
+}
+
+.cool-background {
+  @apply relative min-h-screen overflow-hidden bg-bkg text-content; /* Ensure the element is relatively positioned and has minimum screen height */
+}
+
+.cool-background::before,
+.cool-background::after {
+  @apply absolute -z-10 rounded-full blur-3xl content-[''];
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the elements */
+}
+
+/* Styling for the floating animations */
+.cool-background::before {
+  @apply animate-float-1 h-2/3 w-2/3 bg-accent-2/60;
+}
+
+.cool-background::after {
+  @apply animate-float-2 h-1/2 w-1/2 bg-accent-1/60;
+}
+
+/* Enhanced Floating Animations */
+@keyframes float-1 {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translate(-10%, -10%) scale(1) rotate(0deg);
+  }
+  20% {
+    transform: translate(-50%, -50%) translate(5%, -15%) scale(1.1)
+      rotate(10deg);
+  }
+  40% {
+    transform: translate(-50%, -50%) translate(15%, 5%) scale(0.95)
+      rotate(20deg);
+  }
+  60% {
+    transform: translate(-50%, -50%) translate(-5%, 15%) scale(1.05)
+      rotate(-15deg);
+  }
+  80% {
+    transform: translate(-50%, -50%) translate(-15%, -5%) scale(1) rotate(-5deg);
+  }
+}
+
+@keyframes float-2 {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translate(10%, 10%) scale(1) rotate(0deg);
+  }
+  20% {
+    transform: translate(-50%, -50%) translate(-10%, 20%) scale(1.1)
+      rotate(-8deg);
+  }
+  40% {
+    transform: translate(-50%, -50%) translate(-20%, -10%) scale(0.9)
+      rotate(-20deg);
+  }
+  60% {
+    transform: translate(-50%, -50%) translate(15%, -15%) scale(1.05)
+      rotate(15deg);
+  }
+  80% {
+    transform: translate(-50%, -50%) translate(5%, 10%) scale(1) rotate(5deg);
+  }
+}
+
+/* Utility classes for animations */
+@layer utilities {
+  .animate-float-1 {
+    animation: float-1 25s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  }
+  .animate-float-2 {
+    animation: float-2 28s cubic-bezier(0.25, 1, 0.5, 1) infinite;
   }
 }
